@@ -5,14 +5,15 @@ import (
 	"fmt"
 )
 
-type ContaCorrente struct {
+type ContaPoupanca struct {
 	Titular clientes.Titular
 	NumeroAgencia,
-	NumeroConta int
+	NumeroConta,
+	Operacao int
 	saldo float64
 }
 
-func (Conta *ContaCorrente) Sacar(pValorDoSaque float64) string {
+func (Conta *ContaPoupanca) Sacar(pValorDoSaque float64) string {
 	podeSacar := pValorDoSaque > 0 && pValorDoSaque <= Conta.saldo
 	if podeSacar {
 		Conta.saldo -= pValorDoSaque
@@ -22,7 +23,7 @@ func (Conta *ContaCorrente) Sacar(pValorDoSaque float64) string {
 	}
 }
 
-func (Conta *ContaCorrente) Depositar(pValorDeposito float64) string {
+func (Conta *ContaPoupanca) Depositar(pValorDeposito float64) string {
 	var deposito = pValorDeposito > 0
 	if deposito {
 		Conta.saldo += pValorDeposito
@@ -32,17 +33,6 @@ func (Conta *ContaCorrente) Depositar(pValorDeposito float64) string {
 	}
 }
 
-func (ContaDebito *ContaCorrente) Transferir(pContaCredito *ContaCorrente, pValor float64) bool {
-	transferir := ContaDebito.saldo >= pValor && pValor > 0
-	if transferir {
-		ContaDebito.saldo -= pValor
-		pContaCredito.Depositar(pValor)
-		return true
-	} else {
-		return false
-	}
-}
-
-func (Conta *ContaCorrente) GetSaldo() float64 {
+func (Conta *ContaPoupanca) GetSaldo() float64 {
 	return Conta.saldo
 }
